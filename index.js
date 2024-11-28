@@ -31,6 +31,8 @@ async function run() {
         const database = client.db('coffeeDB');
         const coffeeCollection = database.collection('coffee');
 
+        const userCollection = client.db('coffeeDB').collection('users');
+
 
         app.get('/coffee', async (req, res) => {
             const cursor = coffeeCollection.find();
@@ -74,6 +76,14 @@ async function run() {
             res.send(result);
         })
 
+
+        // Users related apis
+        app.post('/users', async(req, res) =>{
+            const newUser = req.body;
+            console.log('creating new user', newUser);
+            const result = await userCollection.insertOne(newUser);
+            res.send(result);
+        })
 
 
     } finally {
